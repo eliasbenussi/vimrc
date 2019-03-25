@@ -1,69 +1,37 @@
 set shell=bash
 
-set nocompatible
-filetype off
-set rtp+=~/.vim/bundle/vundle/
-call vundle#begin()
+call plug#begin('~/.vim/plugged')
 
-" This is the Vundle package, which can be found on GitHub.
-" For GitHub repos, you specify plugins using the
-" 'user/repository' format
-Plugin 'gmarik/vundle'
+" tree plugin and git flags support
+Plug 'scrooloose/nerdtree'
+Plug 'Xuyuanp/nerdtree-git-plugin'
 
-" Install base16 colourscheme
-Plugin 'chriskempson/base16-vim'
+Plug 'sheerun/vim-polyglot'
+Plug 'w0rp/ale'
+Plug 'ntpeters/vim-better-whitespace'
+Plug 'tpope/vim-commentary'
+Plug 'chriskempson/base16-vim'
+Plug 'sbdchd/neoformat'
 
-Plugin 'tpope/vim-sensible'
+" fuzzy matching on file selection
+Plug 'srstevenson/vim-picker'
 
-" Helps learning how to avoid hjkl and arrows when unnecessary
-Plugin 'takac/vim-hardtime'
+call plug#end()
 
-Plugin 'ConradIrwin/vim-bracketed-paste'
-
-" We could also add repositories with a ".git" extension
-Plugin 'scrooloose/nerdtree.git'
-
-" To get plugins from Vim Scripts, you can reference the plugin
-" by name as it appears on the site
-Plugin 'Buffergator'
-
-" Below are the syntax highlighting plugins
-Plugin 'sheerun/vim-polyglot'
-
-" General asynch linting
-Plugin 'w0rp/ale'
-
-" Handle trailing whitespaces
-Plugin 'ntpeters/vim-better-whitespace'
-
-" Now we can turn our filetype functionality back on
-
-Plugin 'tpope/vim-commentary'
-
-" " A Vim Plugin for Lively Previewing LaTeX PDF Output
-" Plugin 'xuhdev/vim-latex-live-preview'
-
-call vundle#end()
-
-filetype plugin indent on
-
-" let g:hardtime_default_on = 1
-
-set relativenumber
 set number
+set mouse=nicr
 
-" Tab between windows in normal mode
-nmap <Tab> <C-W><C-W>
-
-function! NumberToggle()
- if(&relativenumber == 1)
-   set norelativenumber
+function! CopyPasteToggle()
+ if(&number == 1)
+   set nonumber
+   set mouse=""
  else
-   set relativenumber
+   set number
+   set mouse=nicr
  endif
 endfunc
 
-nnoremap <C-e> :call NumberToggle()<cr>
+nnoremap <C-e> :call CopyPasteToggle()<cr>
 
 set expandtab
 set shiftwidth=4
@@ -71,17 +39,38 @@ set shiftwidth=4
 set autoindent
 set cindent
 
-set mouse=nicr
-
-set colorcolumn=80
-set background=dark
-
-let base16colorspace=256  " Access colors present in 256 colorspace
-colorscheme base16-monokai
+set colorcolumn=100
 
 autocmd BufEnter * EnableStripWhitespaceOnSave
 
-" " set update frequency of the Tex live preview
-" autocmd Filetype tex setl updatetime=1
-" " set previewer for Tex
-" let g:livepreview_previewer = 'open -a Preview'
+if filereadable(expand("~/.vimrc_background"))
+  let base16colorspace=256
+  source ~/.vimrc_background
+endif
+
+" " configure neoformat to use the scalafmt server
+" let g:neoformat_scala_scalafmt = {
+"         \ 'exe': 'ng',
+"         \ 'args': ['org.scalafmt.cli.Cli', '--stdin'],
+"         \ 'stdin': 1,
+"         \ }
+" " configure neoformat to autoformat on save
+" autocmd BufWritePre *.{scala,sbt} Neoformat
+
+let mapleader = ";"
+
+" set vim-picker mappings
+nmap <unique> <leader>pe <Plug>PickerEdit
+nmap <unique> <leader>pen :tabe<CR><Plug>PickerEdit
+nmap <unique> <leader>ps <Plug>PickerSplit
+nmap <unique> <leader>pt <Plug>PickerTabedit
+nmap <unique> <leader>pv <Plug>PickerVsplit
+nmap <unique> <leader>pb <Plug>PickerBuffer
+nmap <unique> <leader>p] <Plug>PickerTag
+nmap <unique> <leader>pw <Plug>PickerStag
+nmap <unique> <leader>po <Plug>PickerBufferTag
+nmap <unique> <leader>ph <Plug>PickerHelp
+
+" mapping to show time
+nmap <unique> <leader>t :NERDTree<CR>
+
