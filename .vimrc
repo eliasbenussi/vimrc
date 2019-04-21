@@ -42,6 +42,7 @@ set cindent
 set colorcolumn=100
 
 autocmd BufEnter * EnableStripWhitespaceOnSave
+let g:strip_whitespace_confirm=0
 
 if filereadable(expand("~/.vimrc_background"))
   let base16colorspace=256
