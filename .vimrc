@@ -6,14 +6,14 @@ let maplocalleader = "-"
 
 call plug#begin('~/.vim/plugged')
 
-" tree plugin and git flags support =====================================
+" tree plugin and git flags support -----------------------------------{{{
 Plug 'scrooloose/nerdtree'
 
 Plug 'Xuyuanp/nerdtree-git-plugin'
 
 " mapping to show time
 nmap <unique> <leader>t :NERDTree<CR>
-" =======================================================================
+" }}}
 
 Plug 'sheerun/vim-polyglot'
 Plug 'w0rp/ale'
@@ -22,24 +22,24 @@ Plug 'tpope/vim-commentary'
 Plug 'chriskempson/base16-vim'
 Plug 'sbdchd/neoformat'
 
-" fuzzy matching on file selection ======================================
+" fuzzy matching on file selection ------------------------------------{{{
 Plug 'srstevenson/vim-picker'
 
 " set vim-picker mappings
-nmap <unique> <leader>pe <Plug>(PickerEdit)
-nmap <unique> <leader>pen :tabe<CR><Plug>(PickerEdit)
-nmap <unique> <leader>ps <Plug>(PickerSplit)
-nmap <unique> <leader>pt <Plug>(PickerTabedit)
-nmap <unique> <leader>pv <Plug>(PickerVsplit)
-nmap <unique> <leader>pb <Plug>(PickerBuffer)
-nmap <unique> <leader>p] <Plug>(PickerTag)
-nmap <unique> <leader>pw <Plug>(PickerStag)
-nmap <unique> <leader>po <Plug>(PickerBufferTag)
-nmap <unique> <leader>ph <Plug>(PickerHelp)
+nmap <unique> <leader>pe <Plug>PickerEdit
+nmap <unique> <leader>pen :tabe<CR><Plug>PickerEdit
+nmap <unique> <leader>ps <Plug>PickerSplit
+nmap <unique> <leader>pt <Plug>PickerTabedit
+nmap <unique> <leader>pv <Plug>PickerVsplit
+nmap <unique> <leader>pb <Plug>PickerBuffer
+nmap <unique> <leader>p] <Plug>PickerTag
+nmap <unique> <leader>pw <Plug>PickerStag
+nmap <unique> <leader>po <Plug>PickerBufferTag
+nmap <unique> <leader>ph <Plug>PickerHelp
 
-" ========================================================================
+" }}}
 
-" Vim HardTime ===========================================================
+" Vim HardTime --------------------------------------------------------{{{
 Plug 'takac/vim-hardtime'
 
 let g:hardtime_default_on = 0
@@ -49,9 +49,9 @@ let g:list_of_normal_keys = ["<UP>", "<DOWN>", "<LEFT>", "<RIGHT>"]
 let g:list_of_visual_keys = ["<UP>", "<DOWN>", "<LEFT>", "<RIGHT>"]
 let g:list_of_insert_keys = ["<UP>", "<DOWN>", "<LEFT>", "<RIGHT>"]
 let g:list_of_disabled_keys = []
-" ========================================================================
+" }}}
 
-" Highlight indentation ==================================================
+" Highlight indentation ------------------------------------------------{{{
 Plug 'nathanaelkane/vim-indent-guides'
 
 let g:indent_guides_auto_colors = 0
@@ -60,7 +60,7 @@ augroup indent_guides
     autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd  guibg=red   ctermbg=3
     autocmd VimEnter,Colorscheme * :hi IndentGuidesEven guibg=green ctermbg=4
 augroup END
-" ========================================================================
+" }}}
 
 call plug#end()
 
@@ -79,7 +79,7 @@ endfunc
 
 nnoremap <C-e> :call CopyPasteToggle()<cr>
 
-" SPACES not TABS =========================================================
+" SPACES not TABS ------------------------------------------------------{{{
 " Make :x be aplied even if no change was made. Use ZZ if you really want
 " the old :x functionality. This way tabs will be removed
 noremap :x :wq
@@ -91,7 +91,16 @@ augroup retab_on_save
     autocmd!
     autocmd BufWritePre * retab
 augroup END
-" =========================================================================
+" }}}
+
+" REACT DEVELOPMENT SETUP ----------------------------------------------{{{
+augroup react_setup
+    autocmd FileType javascript setlocal shiftwidth=2 tabstop=2
+    autocmd FileType html       setlocal shiftwidth=2 tabstop=2
+    autocmd FileType css        setlocal shiftwidth=2 tabstop=2
+augroup END
+autocmd FileType python     setlocal shiftwidth=4 softtabstop=0 expandtab smarttab tabstop=8
+" }}}
 
 set autoindent
 set cindent
@@ -117,11 +126,18 @@ endif
 " " configure neoformat to autoformat on save
 " autocmd BufWritePre *.{scala,sbt} Neoformat
 
-" Use jk to go to normal mode ==============================================
+" Use jk to go to normal mode -------------------------------------------{{{
 inoremap jk <esc>
-" ==========================================================================
+" }}}
 
-" Make it easy to edit vimrc from anywhere =================================
+" Make it easy to edit vimrc from anywhere ----------------------------- {{{
 nnoremap <leader>ev :vsplit $MYVIMRC<cr>
 nnoremap <leader>sv :source $MYVIMRC<cr>
-" ==========================================================================
+" }}}
+
+" Vimscript file settings ---------------------------------------------- {{{
+augroup filetype_vim
+    autocmd!
+    autocmd FileType vim setlocal foldmethod=marker
+augroup END
+" }}}
